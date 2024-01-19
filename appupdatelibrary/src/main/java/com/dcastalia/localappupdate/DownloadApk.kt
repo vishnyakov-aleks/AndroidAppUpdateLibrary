@@ -80,17 +80,16 @@ class DownloadApk(var context: Context) : AppCompatActivity() {
             var flag = false
 
             try {
-                val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/"
-                var outputFile = File("$path$fileName.apk")
+                val path = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!
+                var outputFile = File(path, "$fileName.apk")
                 var repetition = 1
                 while (outputFile.exists()) {
-                    outputFile = File("$path$fileName ($repetition).apk")
+                    outputFile = File(path, "$fileName ($repetition).apk")
                     repetition++
                 }
 
-                val directory = File(path)
-                if (!directory.exists()) {
-                    directory.mkdirs()
+                if (!path.exists()) {
+                    path.mkdirs()
                 }
 
                 val url = URL(downloadUrl)
